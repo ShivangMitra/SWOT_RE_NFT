@@ -1,31 +1,25 @@
 import React from 'react'
+import Details from './Details';
 import './App.css'
 import img from './nft.jpg'
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import CssBaseline from '@mui/material/CssBaseline';
 import Modal from '@mui/material/Modal';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
-import Container from '@mui/material/Container';
 import Slide from '@mui/material/Slide';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
-// import IconButton from '@mui/material/IconButton';
-// import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import LaunchIcon from '@mui/icons-material/Launch';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import AppsIcon from '@mui/icons-material/Apps';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -83,12 +77,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const style = {
   position: 'absolute',
-  top: '50%',
-  left: '50%',
+  top: '12%',
+  left: '10%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  backgroundColor: 'white',
+  borderRadius: '10px',
+  width: '75vw',
+  height: '70vh',
   boxShadow: 24,
   p: 4,
 };
@@ -115,34 +110,21 @@ function App() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
+          <Slide direction="up" in={open} mountOnEnter unmountOnExit>
+          <Box sx={style}>
+            <Details img={img}/>
+          </Box>
+        </Slide>
       </Modal>
       <div className='Navbar' >
           <Box sx={{ flexGrow: 1 }}>
           <AppBar position="sticky" sx={{ height: '12vh', background: '#2e0b3e4a', justifyContent: 'center' }}>
             <Toolbar>
-              {/* <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton> */}
               <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: '3rem', fontFamily: 'VT323' }}>
                 {'{reNFT}'}
               </Typography>
               <Button color="inherit" sx={{ fontSize: '1.2rem' }} onClick={()=>{setPage('market')}} >MARKET</Button>
               <Button color="inherit" sx={{ fontSize: '1.2rem' }} onClick={()=>{setPage('collections')}} >COLLECTIONS</Button>
-              {/* <Button color="inherit" sx={{ fontSize: '1.2rem' }} >DOCS<LaunchIcon/></Button> */}
               <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -234,8 +216,7 @@ function App() {
                     Ape
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
+                    #69420
                   </Typography>
                 </CardContent>
               </CardActionArea>
