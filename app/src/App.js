@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CssBaseline from '@mui/material/CssBaseline';
+import Modal from '@mui/material/Modal';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -25,6 +26,8 @@ import { CardActionArea } from '@mui/material';
 // import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import LaunchIcon from '@mui/icons-material/Launch';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import AppsIcon from '@mui/icons-material/Apps';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { styled, alpha } from '@mui/material/styles';
@@ -78,9 +81,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 function App() {
 
   const [age, setAge] = React.useState('');
+  const [page, setPage] = React.useState('market');
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -89,6 +109,21 @@ function App() {
   return (
     <div className="App">
         <ThemeProvider theme={darkTheme}>
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
       <div className='Navbar' >
           <Box sx={{ flexGrow: 1 }}>
           <AppBar position="sticky" sx={{ height: '12vh', background: '#2e0b3e4a', justifyContent: 'center' }}>
@@ -103,11 +138,11 @@ function App() {
                 <MenuIcon />
               </IconButton> */}
               <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: '3rem', fontFamily: 'VT323' }}>
-                reNFT
+                {'{reNFT}'}
               </Typography>
-              <Button color="inherit" sx={{ fontSize: '1.2rem' }} >MARKET</Button>
-              <Button color="inherit" sx={{ fontSize: '1.2rem' }} >COLLECTIONS</Button>
-              <Button color="inherit" sx={{ fontSize: '1.2rem' }} >DOCS<LaunchIcon/></Button>
+              <Button color="inherit" sx={{ fontSize: '1.2rem' }} onClick={()=>{setPage('market')}} >MARKET</Button>
+              <Button color="inherit" sx={{ fontSize: '1.2rem' }} onClick={()=>{setPage('collections')}} >COLLECTIONS</Button>
+              {/* <Button color="inherit" sx={{ fontSize: '1.2rem' }} >DOCS<LaunchIcon/></Button> */}
               <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -124,29 +159,50 @@ function App() {
 
 
       </div>
-      <div className='Page-header' style={{ fontFamily: 'VT323' }} >
-        MARKET
-      </div>
+      {
+        page==='market'
+        ?
+        (
+          <div className='Page-header' style={{ fontFamily: 'VT323' }} >
+            MARKET<StorefrontIcon sx={{ width: '90px', height: '60px' }}/>
+          </div>
+        )
+        :
+        (
+          <div className='Page-header' style={{ fontFamily: 'VT323' }} >
+            COLLECTIONS<AppsIcon sx={{ width: '90px', height: '60px' }}/>
+          </div>
+        )
+      }
+      
       <div className='fake-cards-container' >
             <div className='cards-container' >
             <div className='filters' >
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Availability</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box sx={{ minWidth: 120 }}>
+              {
+                page==='market'
+                ?
+                (
+                  <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">Availability</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={age}
+                        label="Age"
+                        onChange={handleChange}
+                      >
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                )
+                :
+                null
+              }
+              <Box sx={ page==='collections' ? { minWidth: 120, width: '80%' } : {minWidth: 120}}>
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
                   <Select
@@ -164,7 +220,7 @@ function App() {
               </Box>
             </div>
             {[...new Array(13)].map(() => (
-              <Card sx={{ maxWidth: 345, marginBottom: '2%', background: 'rgba(0,0,0,0.8)',backdropFilter: 'saturate(180%) blur(10px)' }}>
+              <Card onClick={handleOpen} sx={{ maxWidth: 345, marginBottom: '2%', background: 'rgba(0,0,0,0.8)',backdropFilter: 'saturate(180%) blur(10px)' }}>
               <CardActionArea>
                 <CardMedia
                   component="img"
